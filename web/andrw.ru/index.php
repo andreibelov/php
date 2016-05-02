@@ -14,4 +14,5 @@
 	$repl = array("AMS",$content_css,$navbar,$hreflink,$menu,$content);
 	$output = str_replace($temp, $repl, $main);
 	echo $output;
+	$tpl->getTemplate()
 ?>

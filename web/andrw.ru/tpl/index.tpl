@@ -35,7 +35,7 @@
             </div>
         </div>
 		<div id="footer">
-            <p>Copyright 2012-2013 by <a href="http://ak-monolit.ru">АК "МОНОЛИТ"</a>. All Rights Reserved.
+            <p>Copyright 2012-2016 by <a href="#">andrei.belov</a>. All Rights Reserved.
             </p>
 		</div>
 		</div>

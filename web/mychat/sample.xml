@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<root>
+    <field>
+        <label>Have you invested before</label>
+        <value>No</value>
+    </field>
+    <field>
+        <label>Are you looking to invest in the next 6 months</label>
+        <value>Maybe</value>
+    </field>
+    <field>
+        <label>What investments are you interested in</label>
+        <value>Carbon Credits, Green Investments</value>
+    </field>
+    <field>
+        <label>How much are you looking to invest</label>
+        <value>?50,000 -  ?100,000</value>
+    </field>
+</root>

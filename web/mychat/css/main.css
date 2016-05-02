@@ -1,0 +1,64 @@
+html, body {
+    text-align: center;
+}
+body {
+    color: #444444;
+    background-color: #EEEEEE;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 80%;
+    overflow:scroll;
+}
+h1 {
+    font-family: Serif;
+    font-weight: normal;
+}
+h2 { font-size: 1.2em; }
+
+div {
+    border: 1px dashed #000000;
+}
+
+
+#main{
+    background-color: #fff;
+    width: 924px;
+    padding: 12px;
+    margin-left: auto ;
+    margin-right: auto ;
+    min-height: 524px;
+}
+#navbar{
+}
+#header{
+    width: 100%;
+    background: #000;
+}
+#menu{
+    left: 0;
+    width: 200px;
+    background: #fff;
+    text-align: left;
+    min-height: 500px;
+    float: left;
+
+}
+#content{
+    width: 700px;
+    text-align: left;
+    right: 0;
+    padding: 0 0 0 6px;
+    overflow: hidden;
+    min-height: 500px;
+    float: right;
+}
+#count{
+    width: 500px;
+}
+textarea {
+    resize: none;
+    width: 496px;
+}
+#footer{
+    width: 100%;
+    background: #000;
+}

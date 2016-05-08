@@ -17,7 +17,10 @@ h2 { font-size: 1.2em; }
 div {
     border: 1px dashed #000000;
 }
-
+dd {
+    display: block;
+    margin-left: 40px;
+}
 
 #main{
     background-color: #fff;

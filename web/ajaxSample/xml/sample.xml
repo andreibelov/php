@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<root>
+    <field>
+        <label>chatuser1</label>
+        <value>No</value>
+    </field>
+    <field>
+        <label>chatuser2</label>
+        <value>Maybe</value>
+    </field>
+    <field>
+        <label>chatuser1</label>
+        <value>Carbon Credits, Green Investments</value>
+    </field>
+    <field>
+        <label>chatuser2</label>
+        <value>Ok</value>
+    </field>
+</root>

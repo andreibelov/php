@@ -9,7 +9,7 @@ include_once ('./incl/class.php');
 
 $page = new pBuild();
 if($_GET[xml] == 1){
-    $xml = file_get_contents("./sample.xml");
+    $xml = file_get_contents("./xml/sample.xml");
     print $xml;
     exit();
 } else {

@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Ajax example</title>
+    <link type="text/css" rel="stylesheet" media="all" href="/css/main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
 <body>
+<div class="main">
 
-<div id="demo"><h2>Let AJAX change this text</h2></div>
-
-<button type="button" onclick="loadDoc()">Change Content</button>
-
-
-<script>
-    function loadDoc() {
-        var xhttp = new XMLHttpRequest();
-        var i = 0;
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("demo").innerHTML = xhttp.responseText;
-                i++;
-            }
-        };
-        xhttp.open("GET", "ajax.txt", true);
-        xhttp.send();
-    }
-</script>
-
+    <div id="demo">
+        <table>
+            <tbody>
+            <tr>
+                <td><h2>Ajax simple chat</h2></td>
+                <td><div id="result"></div></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    <div id="chat"><dl></dl></div>
+    <button id="xml" type="button">Change Content</button>
+    <button id="clc" type="button">Clear</button>
+</div>
 </body>
 </html>

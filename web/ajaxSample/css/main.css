@@ -13,6 +13,8 @@ dt {
 dd {
     margin: 0 0 0 110px;
     padding: 0 0 0.5em 0;
+    width: 450px;
+    word-break: break-all;
 }
 dd:after {
     content: ";";
@@ -27,5 +29,6 @@ div.main{
 div#chat{
     border: 3px double #ccc;
     overflow-y:scroll;
+    overflow-x: hidden;
     height:400px;
 }

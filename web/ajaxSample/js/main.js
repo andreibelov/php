@@ -2,6 +2,7 @@ $(document).ready(function() {
     get();
     $("#xml").on("click", get);
     $("#clc").on("click",sex);
+    $("#apnd").on("click",concatenate);
 
     function get() {
         $.ajax({
@@ -13,16 +14,19 @@ $(document).ready(function() {
                 $("#result").html('Load - OK!');
                 var list = $('dl');
                 list.empty();
-                $(result).find('field').each(function (index, element) {
-                    var field = $(element);
+                $(result).find('message').each(function (index, element) {
+
+                    var message = $(element);
                     // get the values we want
-                    var label = field.find('label').text();
-                    var value = field.find('value').text();
-                    var id = field.find('msg_id').text();
+                    var nickname = message.find('nickname').text();
+                    var mtext = message.find('mtext').text();
+                    var id = message.find('id').text();
                     // and append some html in the <dl> element we stored previously
-                    list.append('<dt id="'+id+'">' + label + ': </dt>')
-                        .append('<dd id="'+id+'">' + value + '</dd>');
+                    list.append('<dt id="'+id+'">' + nickname + ': </dt>')
+                        .append('<dd id="'+id+'">' + mtext + '</dd>');
                 });
+                var d = $('#chat');
+                d.animate({scrollTop: d.prop("scrollHeight")}, 50);
             },
             error : function () {
                 $("#result").html('Load - NOT OK!');
@@ -30,17 +34,35 @@ $(document).ready(function() {
         });
     }
 
-    function doStuff(data) {
-        // parse the xml
-        data = $.parseXML(data);
-        // first we query the HTML document to get the list element
-        // and store it for later use
-
+    function concatenate() {
+        $.ajax({
+            type: 'GET',
+            url: '/xml/xml.php?lastmsg=1',
+            cache: false,
+            dataType: "xml",
+            success : function (result) {
+                var list = $('dl');
+                $(result).find('message').each(function (index, element) {
+                    var message = $(element);
+                    // get the values we want
+                    var nickname = message.find('nickname').text();
+                    var mtext = message.find('mtext').text();
+                    var id = message.find('id').text();
+                    // and append some html in the <dl> element we stored previously
+                    list.append('<dt id="'+id+'">' + nickname + ': </dt>')
+                        .append('<dd id="'+id+'">' + mtext + '</dd>');
+                });
+            },
+            error : function () {
+                $("#result").html('Load - NOT OK!');
+            }
+        });
+        var d = $('#chat');
+        d.animate({scrollTop: d.prop("scrollHeight")}, 250);
     }
 
     function sex() {
-        $("dt#").remove();
-        $("dd#").remove();
+        $('dl').empty();
     }
 
 });

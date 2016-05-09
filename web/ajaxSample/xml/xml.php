@@ -6,22 +6,15 @@
  * Time: 11:39 AM
  */
 //if(count(get_included_files()) ==1) exit("Direct access not permitted.");
-//$xml = file_get_contents("./sample.xml");
 
 class GetXml {
 
     public $xml;
-
+    
     public function __construct($size = 20)
     {
         $this->xml = new SimpleXMLElement('<root/>');
-        for ($i = 1; $i <= $size; ++$i) {
-            $chuid = $this->rStr(8,1);
-            $track = $this->xml->addChild('field');
-            $track->addChild('msg_id', $i);
-            $track->addChild('label', "chatuser $chuid");
-            $track->addChild('value', $this->rStr());
-        }
+        $this->query($size);
     }
 
     public function setHeader()
@@ -29,13 +22,23 @@ class GetXml {
         header('Content-type: text/xml');
     }
 
-    public function addChild($l = 200)
+    private function query($size)
     {
-        $track = $this->xml->addChild('random');
-        $track->addChild('msg', $this->rStr($l));
+        $db = simplexml_load_file("./msg.xml") or die("Error: Cannot create object");
+        $this->mid = $db->value;
+        for ($i = 1; $i <= $size; ++$i) {
+            $chuid = $this->rStr(8, 1);
+            $track = $this->xml->addChild('message');
+            $track->addChild('id', $this->mid);
+            $track->addChild('nickname', "chatuser $chuid");
+            $track->addChild('mtext', $this->rStr());
+            $this->mid += 1;
+        }
+        $db->value = $this->mid;
+        $db->asXML('./msg.xml');
     }
-
-    public function rStr($length = 20, $bool = 0) // random string generator
+    
+    public function rStr($length = 200, $bool = 0) // random string generator
     {
 
         if ($bool == 0){
@@ -49,19 +52,22 @@ class GetXml {
 
         } else {
             $characters = '0123456789';}
-            return rand(1,$length);
+        return rand(1,$length);
     }
 
     public function doPrint()    {
+        $this->setHeader();
         print($this->xml->asXML());
         exit();
     }
-
 }
 
-$XML = new GetXml();
-$XML->setHeader();
-$XML->addChild();
+
+if (isset($_GET["lastmsg"]) && $_GET["lastmsg"] == 1){
+    $XML = new GetXml(1);
+} else {
+    $XML = new GetXml();
+}
 $XML->doPrint();
 
 

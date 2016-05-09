@@ -3,15 +3,15 @@ $(document).ready(function(){
     var ch="";
     function chtxt() {
         var txt = "You have clicked "+ i +" times. \n";
-        var msg = $("#msg").val();
+        var msg = $("#msg");
         if(msg.trim() == ""){
-            $("#msg").val("");
+            msg.val("");
             return;
         }
         ch += msg.trim() + "\n";
         $("#count").text(txt);
         $("#txtHere").text(ch);
-        $("#msg").val("");
+        msg.val("");
         i++;
     }
     $("#clicker").on("click", chtxt);
@@ -20,36 +20,33 @@ $(document).ready(function(){
         chtxt();
     });
     $("#xml").on("click", function () {
-        $.get('/?xml=1')
-            .done(function(data){
-                // parse the xml
-                data = $.parseXML(data);
-                // first we query the HTML document to get the list element
-                // and store it for later use
-                var list = $('dl');
-                // data is a xml document now, so we query it...
-                $(data)
-                // and search for all <field> elements
-                    .find('field')
-                    // now we can play with each <field>
-                    .each(function(index, element){
-                        // as example we query & store the field
-                        var field = $(element);
-                        // get the values we want
-                        var label = field.find('label').text();
-                        var value = field.find('value').text();
-                        // and append some html in the <dl> element we stored previously
-                        list
-                            .append('<dt>'+label+': </dt>')
-                            .append('<dd>'+value+'</dd>')
-                        ;
-                    })
-                ;
-            })
-            .fail(function(){
-                alert('something went wrong!');
-            });
+        var xmlDocument = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><root />'));
+        $('root',xmlDocument).append($('<message />', xmlDocument));
+        var xElement = $(xmlDocument).find('message');
+        $(xElement).append('<nickname>chatuser 1</nickname>',xElement);
+        $(xElement).append('<msg>2dawdADAD8</msg>',xElement);
+        var list = $("#menu");
+
+        var str = (new XMLSerializer()).serializeToString(xmlDocument.context);
+        list.text(str);
+        sendXml(str);
+
     });
+    function sendXml(str)   {
+
+        $.ajax({
+            url: '/xml/xml.php',
+            processData: false,
+            type: "POST",
+            data: str, // send the string directly
+            success: function(){
+                //alert('OK!');
+            },
+            error: function(response) {
+                alert(response);
+            }
+        });
+    }
 
 
 });

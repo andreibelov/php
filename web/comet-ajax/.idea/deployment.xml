@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="79v.ru">
+    <serverData>
+      <paths name="79v.ru">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/john/web/79v.ru/public_html/comet" local="$PROJECT_DIR$" web="/comet" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

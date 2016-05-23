@@ -3,27 +3,25 @@
 <head>
     <title>Ajax example</title>
     <link type="text/css" rel="stylesheet" media="all" href="/css/main.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
 <div class="main">
 
     <div id="demo">
-        <table>
-            <tbody>
-            <tr>
-                <td><h2>Ajax simple chat</h2></td>
-                <td><div id="result"></div></td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
+        <h2>Ajax simple chat</h2>
+    </div>
     <div id="chat"><dl></dl></div>
+    <div id="input">
+        <label for="msg">Your message: (press Ctrl+Enter to send message)</label>
+        <br />
+        <textarea id="msg" name="msg" rows="4" cols="50">Type your message here</textarea>
+    </div>
     <div class="buttons">
-        <button id="xml" type="button">Load</button>
+        <button id="send" type="button">Send</button>
         <button id="clc" type="button">Clear</button>
-        <button id="apnd" type="button">Append</button>
+        <button id="attch" type="button">Attach</button>
     </div>
 </div>
 </body>

@@ -6,15 +6,26 @@
  * Time: 11:39 AM
  */
 //if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+$XML = new GetXml();
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ){$XML->dbWright();}
+$XML->doPrint();
 
 class GetXml {
 
     public $xml;
-    
+    private $filename='./msg.xml';
+    protected $message;
+
     public function __construct($size = 20)
     {
-        $this->xml = new SimpleXMLElement('<root/>');
-        $this->query($size);
+        if(file_exists($this->filename)){
+            $this->xml = simplexml_load_file($this->filename) or die("Error: Cannot create object");
+        } else {
+            $this->xml= new SimpleXMLElement("<root />");
+        }
+
     }
 
     public function setHeader()
@@ -22,26 +33,31 @@ class GetXml {
         header('Content-type: text/xml');
     }
 
-    private function query($size)
+    public function dbWright()
     {
-        $db = simplexml_load_file("./msg.xml") or die("Error: Cannot create object");
-        $this->mid = $db->value;
-        for ($i = 1; $i <= $size; ++$i) {
-            $chuid = $this->rStr(8, 1);
-            $track = $this->xml->addChild('message');
-            $track->addChild('id', $this->mid);
-            $track->addChild('nickname', "chatuser $chuid");
-            $track->addChild('mtext', $this->rStr());
-            $this->mid += 1;
-        }
-        $db->value = $this->mid;
-        $db->asXML('./msg.xml');
+        $this->listen();
+        $message = $this->xml->addChild('message');
+        $message->addAttribute('id', '1');
+        $message->addChild('timestamp', time());
+        $message->addChild('chuid', $this->message->message->chuid);
+        $message->addChild('text',"%{".$this->message->message->text."}%");
+        $str = $this->xml->saveXML();
+        $search = array("%{","}%");
+        $repl = array("<![CDATA[","]]>");
+        $str = rtrim(str_replace($search, $repl, $str), "\n");
+        file_put_contents($this->filename, $str);
+        $this->xml = simplexml_load_file($this->filename) or die("Error: Cannot create object");
+        return;
     }
-    
-    public function rStr($length = 200, $bool = 0) // random string generator
+
+    private function listen()
+    {
+        $this->message = simplexml_load_file('php://input');
+    }
+
+    public function rStr($length = 200) // random string generator
     {
 
-        if ($bool == 0){
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
             $randomString = '';
@@ -49,10 +65,6 @@ class GetXml {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
             return $randomString;
-
-        } else {
-            $characters = '0123456789';}
-        return rand(1,$length);
     }
 
     public function doPrint()    {
@@ -61,17 +73,5 @@ class GetXml {
         exit();
     }
 }
-
-
-if (isset($_GET["lastmsg"]) && $_GET["lastmsg"] == 1){
-    $XML = new GetXml(1);
-} else {
-    $XML = new GetXml();
-}
-$XML->doPrint();
-
-
-
-
 
 

@@ -1,68 +1,79 @@
 $(document).ready(function() {
-    get();
-    $("#xml").on("click", get);
-    $("#clc").on("click",sex);
-    $("#apnd").on("click",concatenate);
+    load();
+    $("#send").on("click", send);
+    $("#clc").on("click",clc);
+    //$("#attch").on("click",concatenate);
+    var msg = $("#msg");
 
-    function get() {
+    msg.keydown(function(e){
+        if(e.ctrlKey && e.keyCode == 13){
+            send();
+        }
+    });
+    function load() {
         $.ajax({
             type: 'GET',
             url: '/xml/xml.php',
             cache: false,
             dataType: "xml",
             success : function (result) {
-                $("#result").html('Load - OK!');
-                var list = $('dl');
-                list.empty();
-                $(result).find('message').each(function (index, element) {
-
-                    var message = $(element);
-                    // get the values we want
-                    var nickname = message.find('nickname').text();
-                    var mtext = message.find('mtext').text();
-                    var id = message.find('id').text();
-                    // and append some html in the <dl> element we stored previously
-                    list.append('<dt id="'+id+'">' + nickname + ': </dt>')
-                        .append('<dd id="'+id+'">' + mtext + '</dd>');
-                });
-                var d = $('#chat');
-                d.animate({scrollTop: d.prop("scrollHeight")}, 50);
+                parser(result);
             },
             error : function () {
-                $("#result").html('Load - NOT OK!');
+               alert('Load - NOT OK!');
             }
         });
     }
 
-    function concatenate() {
+    function send() {
+        var text = '<![CDATA['+msg.val().trim()+']]>';
+        var chuid = "chatuser1";
+        if(text == ""){
+            msg.val("");
+            return;
+        }
+        var xmlDoc = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><root />'));
+        var obj = $('root',xmlDoc).append($('<message />', xmlDoc));
+        $('message',obj).append($('<chuid />', xmlDoc).text(chuid));
+        $('message',obj).append($('<text />', xmlDoc).html(text));
+        var str = (new XMLSerializer()).serializeToString(xmlDoc.context);
         $.ajax({
-            type: 'GET',
-            url: '/xml/xml.php?lastmsg=1',
+            type: 'POST',
+            url: '/xml/xml.php',
             cache: false,
             dataType: "xml",
+            data: str,
+            processData: false,
+            contentType: "application/xml; charset=UTF-8",
             success : function (result) {
-                var list = $('dl');
-                $(result).find('message').each(function (index, element) {
-                    var message = $(element);
-                    // get the values we want
-                    var nickname = message.find('nickname').text();
-                    var mtext = message.find('mtext').text();
-                    var id = message.find('id').text();
-                    // and append some html in the <dl> element we stored previously
-                    list.append('<dt id="'+id+'">' + nickname + ': </dt>')
-                        .append('<dd id="'+id+'">' + mtext + '</dd>');
-                });
+                parser(result);
             },
             error : function () {
-                $("#result").html('Load - NOT OK!');
+                alert('Load - NOT OK!');
             }
+        });
+        msg.val("");
+        msg.focus();
+    }
+
+    function clc() {
+        $('dl').empty();
+    }
+
+    function parser(result) {
+        var list = $('dl');
+        list.empty();
+        $(result).find('message').each(function (index, element) {
+            var message = $(element);
+            var chuid = message.find('chuid').text();
+            var text = message.find('text').text().replace(/\r\n|\r|\n/g, "<br />")
+                .replace("<![CDATA[", "").replace("]]>","");
+            var id = message.find('id').text();
+            list.append('<dt id="' + id + '">' + chuid + ': </dt>')
+                .append('<dd id="' + id + '">' + text + '</dd>');
         });
         var d = $('#chat');
         d.animate({scrollTop: d.prop("scrollHeight")}, 250);
-    }
-
-    function sex() {
-        $('dl').empty();
     }
 
 });

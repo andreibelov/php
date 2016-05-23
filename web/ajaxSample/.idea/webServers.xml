@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="d80449a7-32b8-41cf-8a69-bd7527f544d8" name="ajax" url="http://192.168.1.15">
-        <fileTransfer host="192.168.1.15" port="22" privateKey="D:\Users\john\.ssh\id_rsa" rootFolder="/home/john/web/ajax.sample/public_html" accessType="SFTP" username="john" keyPair="true">
+      <webServer id="8d90fb97-3a57-4879-968c-ac093abae83b" name="79v.ru" url="http://79v.ru">
+        <fileTransfer host="79v.ru" port="22" privateKey="D:\Users\john\.ssh\id_rsa" accessType="SFTP" username="john" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>
